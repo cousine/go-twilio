@@ -1,12 +1,20 @@
 package twiml
 
-import ()
+import (
+	"encoding/xml"
+)
 
 // Verb
 // https://www.twilio.com/docs/api/twiml/play
 type Play struct {
-	Loop   int    `xml:", attr"`
-	Digits string `xml:", attr"`
+	XMLName xml.Name `xml:"Play"`
 
-	Value string `xml:", innerxml, omitempty"`
+	Loop   int    `xml:"loop,attr,omitempty"`
+	Digits string `xml:"digits,attr,omitempty"`
+
+	Value string `xml:",chardata"`
+}
+
+func (Play) isTwiml() bool {
+	return true
 }

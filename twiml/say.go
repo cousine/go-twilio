@@ -1,13 +1,21 @@
 package twiml
 
-import ()
+import (
+	"encoding/xml"
+)
 
 // Verb
 // https://www.twilio.com/docs/api/twiml/say
 type Say struct {
-	Voice    string `xml:", attr"`
-	Language string `xml:", attr"`
-	Loop     int    `xml:", attr"`
+	XMLName xml.Name `xml:"Say"`
 
-	Value string `xml:", innerxml, omitempty"`
+	Voice    string `xml:"voice,attr,omitempty"`
+	Language string `xml:"language,attr,omitempty"`
+	Loop     int    `xml:"loop,attr,omitempty"`
+
+	Value string `xml:",chardata"`
+}
+
+func (Say) isTwiml() bool {
+	return true
 }

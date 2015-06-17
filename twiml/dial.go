@@ -1,77 +1,93 @@
 package twiml
 
-import ()
+import (
+	"encoding/xml"
+)
 
 // Nouns
 // https://www.twilio.com/docs/api/twiml/number
 type Number struct {
-	SendDigits           string `xml:", attr"`
-	Url                  string `xml:", attr"`
-	Method               string `xml:", attr"`
-	StatusCallbackEvent  string `xml:", attr"`
-	StatusCallback       string `xml:", attr"`
-	StatusCallbackMethod string `xml:", attr"`
+	XMLName xml.Name `xml:"Number"`
 
-	Value string `xml:", innerxml, omitempty"`
+	SendDigits           string `xml:"sendDigits,attr,omitempty"`
+	Url                  string `xml:"url,attr,omitempty"`
+	Method               string `xml:"method,attr,omitempty"`
+	StatusCallbackEvent  string `xml:"statusCallbackEvent,attr,omitempty"`
+	StatusCallback       string `xml:"statusCallback,attr,omitempty"`
+	StatusCallbackMethod string `xml:"statusCallbackMethod,attr,omitempty"`
+
+	Value string `xml:",chardata"`
 }
 
 // https://www.twilio.com/docs/api/twiml/client
 type Client struct {
-	Url                  string `xml:", attr"`
-	Method               string `xml:", attr"`
-	StatusCallbackEvent  string `xml:", attr"`
-	StatusCallback       string `xml:", attr"`
-	StatusCallbackMethod string `xml:", attr"`
+	XMLName xml.Name `xml:"Client"`
 
-	Value string `xml:", innerxml, omitempty"`
+	Url                  string `xml:"url,attr,omitempty"`
+	Method               string `xml:"method,attr,omitempty"`
+	StatusCallbackEvent  string `xml:"statusCallbackEvent,attr,omitempty"`
+	StatusCallback       string `xml:"statusCallback,attr,omitempty"`
+	StatusCallbackMethod string `xml:"statusCallbackMethod,attr,omitempty"`
+
+	Value string `xml:",chardata"`
 }
 
 // https://www.twilio.com/docs/api/twiml/Sip
 type Sip struct {
-	Username             string `xml:", attr"`
-	Password             string `xml:", attr"`
-	Url                  string `xml:", attr"`
-	Method               string `xml:", attr"`
-	StatusCallbackEvent  string `xml:", attr"`
-	StatusCallback       string `xml:", attr"`
-	StatusCallbackMethod string `xml:", attr"`
+	XMLName xml.Name `xml:"Sip"`
 
-	Value string `xml:", innerxml, omitempty"`
+	Username             string `xml:"username,attr,omitempty"`
+	Password             string `xml:"password,attr,omitempty"`
+	Url                  string `xml:"url,attr,omitempty"`
+	Method               string `xml:"method,attr,omitempty"`
+	StatusCallbackEvent  string `xml:"statusCallbackEvent,attr,omitempty"`
+	StatusCallback       string `xml:"statusCallback,attr,omitempty"`
+	StatusCallbackMethod string `xml:"statusCallbackMethod,attr,omitempty"`
+
+	Value string `xml:",chardata"`
 }
 
 // https://www.twilio.com/docs/api/twiml/conference
 type Conference struct {
-	Muted                  bool   `xml:", attr"`
-	Beep                   string `xml:", attr"`
-	StartConferenceOnEnter bool   `xml:", attr"`
-	EndConferenceOnExit    bool   `xml:", attr"`
-	WaitUrl                string `xml:", attr"`
-	WaitMethod             string `xml:", attr"`
-	MaxParticipants        uint   `xml:", attr"`
-	Record                 string `xml:", attr"`
-	Trim                   string `xml:", attr"`
-	EventCallbackUrl       string `xml:", attr"`
+	XMLName xml.Name `xml:"Conference"`
 
-	Value string `xml:", innerxml, omitempty"`
+	Muted                  bool   `xml:"muted,attr,omitempty"`
+	Beep                   string `xml:"beep,attr,omitempty"`
+	StartConferenceOnEnter bool   `xml:"startConferenceOnEnter,attr,omitempty"`
+	EndConferenceOnExit    bool   `xml:"endConferenceOnExit,attr,omitempty"`
+	WaitUrl                string `xml:"waitUrl,attr,omitempty"`
+	WaitMethod             string `xml:"waitMethod,attr,omitempty"`
+	MaxParticipants        uint   `xml:"maxParticipants,attr,omitempty"`
+	Record                 string `xml:"record,attr,omitempty"`
+	Trim                   string `xml:"trim,attr,omitempty"`
+	EventCallbackUrl       string `xml:"eventCallbackUrl,attr,omitempty"`
+
+	Value string `xml:",chardata"`
 }
 
 // Verb
 // https://www.twilio.com/docs/api/twiml/dial
 type Dial struct {
-	Action       string `xml:", attr"`
-	Method       string `xml:", attr"`
-	Timeout      uint   `xml:", attr"`
-	HangupOnStar bool   `xml:", attr"`
-	TimeLimit    uint   `xml:", attr"`
-	CallerId     string `xml:", attr"`
-	Record       string `xml:", attr"`
-	Trim         string `xml:", attr"`
+	XMLName xml.Name `xml:"Dial"`
 
-	Number
-	Client
-	Sip
-	Conference
-	Queue
+	Action       string `xml:"action,attr,omitempty"`
+	Method       string `xml:"method,attr,omitempty"`
+	Timeout      uint   `xml:"timeout,attr,omitempty"`
+	HangupOnStar bool   `xml:"hangupOnStar,attr,omitempty"`
+	TimeLimit    uint   `xml:"timeLimit,attr,omitempty"`
+	CallerId     string `xml:"callerId,attr,omitempty"`
+	Record       string `xml:"record,attr,omitempty"`
+	Trim         string `xml:"trim,attr,omitempty"`
 
-	Value string `xml:", innerxml, omitempty"`
+	NumberList []Number
+	ClientList []Client `xml:"Client"`
+	Sip        *Sip
+	Conference *Conference
+	Queue      *Queue
+
+	Value string `xml:",chardata"`
+}
+
+func (Dial) isTwiml() bool {
+	return true
 }

@@ -5,7 +5,11 @@ import ()
 // Verb
 // https://www.twilio.com/docs/api/twiml/redirect
 type Redirect struct {
-	Method string `xml:", attr"`
+	Method string `xml:",attr"`
 
-	Value string `xml:", innerxml, omitempty"`
+	Value string `xml:",chardata"`
+}
+
+func (Redirect) isTwiml() bool {
+	return true
 }
