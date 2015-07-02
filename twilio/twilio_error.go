@@ -13,17 +13,21 @@ type TwilioError struct {
 	MoreInfo string `json:"more_info"`
 }
 
+func NewLocalTwilioError(message string) (twilioError TwilioError) {
+	return TwilioError{
+		Status:  422,
+		Message: message,
+		Code:    -1,
+	}
+}
+
 func NewTwilioError(rawJson io.ReadCloser) (twilioError TwilioError) {
 	twilioError = TwilioError{}
 
 	jsonDecoder := json.NewDecoder(rawJson)
 	err := jsonDecoder.Decode(&twilioError)
 	if err != nil {
-		return TwilioError{
-			Status:  422,
-			Message: err.Error(),
-			Code:    -1,
-		}
+		return NewLocalTwilioError(err.Error())
 	}
 
 	return

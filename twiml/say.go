@@ -11,7 +11,7 @@ type Say struct {
 
 	Voice    string `xml:"voice,attr,omitempty"`
 	Language string `xml:"language,attr,omitempty"`
-	Loop     int    `xml:"loop,attr,omitempty"`
+	Loop     int    `xml:"loop,attr"`
 
 	Value string `xml:",chardata"`
 }

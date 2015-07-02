@@ -9,7 +9,7 @@ import (
 type Play struct {
 	XMLName xml.Name `xml:"Play"`
 
-	Loop   int    `xml:"loop,attr,omitempty"`
+	Loop   int    `xml:"loop,attr"`
 	Digits string `xml:"digits,attr,omitempty"`
 
 	Value string `xml:",chardata"`
