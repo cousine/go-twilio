@@ -117,6 +117,11 @@ func (client *Client) updateCall(call *Call, url string, method string, status s
 		return NewTwilioError(resp.Body)
 	}
 
+	err = call.FromJson(resp.Body)
+	if err != nil {
+		return
+	}
+
 	return
 }
 
